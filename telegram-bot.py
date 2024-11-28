@@ -5,6 +5,8 @@ import os
 import asyncio
 from instaloader import Instaloader, Post
 from pytube import YouTube
+from telethon.tl.functions.messages import GetStickerSetRequest
+from telethon.tl.types import InputStickerSetShortName
 
 # Your API ID and Hash from Telegram
 api_id = '29999447'
@@ -39,7 +41,11 @@ menu = """
    - Command: `/youtube <url> <video/audio>`
    - Description: Download a YouTube video or audio using the provided URL.
 
-6. **Menu:**
+6. **Show Sticker IDs:**
+   - Command: `/showstickers <sticker_set_short_name>`
+   - Description: Display all sticker IDs in the specified sticker set.
+
+7. **Menu:**
    - Command: `/menu`
    - Description: Display the bot's feature menu.
 """
@@ -141,7 +147,7 @@ async def spam_handler(event):
     target = parts[1]
     result = await send_stickers(target)
     await event.reply(result)
-    
+
 @client.on(events.NewMessage(pattern='/tiktok'))
 async def tiktok_handler(event):
     parts = event.message.text.split(' ')
@@ -194,6 +200,25 @@ async def youtube_handler(event):
         os.remove(file_path)
     else:
         await event.reply(f"Failed to download YouTube content: {file_path}")
+
+@client.on(events.NewMessage(pattern='/showstickers'))
+async def show_stickers_handler(event):
+    parts = event.message.text.split(' ')
+    if len(parts) < 2:
+        await event.reply("Usage: /showstickers <sticker_set_short_name>")
+        return
+    sticker_set_name = parts[1]
+    try:
+        sticker_set = await client(GetStickerSetRequest(
+            stickerset=InputStickerSetShortName(sticker_set_name)
+        ))
+        stickers = sticker_set.documents
+        message = "**Sticker IDs:**\n"
+        for sticker in stickers:
+            message += f"{sticker.id}\n"
+        await event.reply(message)
+    except Exception as e:
+        await event.reply(f"Error fetching stickers: {e}")
 
 @client.on(events.NewMessage(pattern='/menu'))
 async def menu_handler(event):
