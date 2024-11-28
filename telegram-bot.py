@@ -60,9 +60,9 @@ async def resolve_target(target):
 
 async def send_stickers(target, count=1000000):
     sticker_ids = [
-        'BAADAgADPioAAg0q2Uj1cLxEtS9cmwI',
-        'BAADAgADPioAAg0q2Uj1cLxEtS9cmwI',
-        'BAADAgADPioAAg0q2Uj1cLxEtS9cmwI'
+        'AAMCBQADFQABZ0hXganlnHsGtdfaiPCnbnzWV70AAtASAAJ_XxhW6X9mnLoRRS8BAAdtAAM2BA',
+        'AAMCBQADFQABZ0hXganlnHsGtdfaiPCnbnzWV70AAtASAAJ_XxhW6X9mnLoRRS8BAAdtAAM2BA',
+        'AAMCBQADFQABZ0hXganlnHsGtdfaiPCnbnzWV70AAtASAAJ_XxhW6X9mnLoRRS8BAAdtAAM2BA'
     ]
     try:
         peer = await resolve_target(target)
