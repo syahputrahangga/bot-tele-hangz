@@ -201,25 +201,6 @@ async def youtube_handler(event):
     else:
         await event.reply(f"Failed to download YouTube content: {file_path}")
 
-@client.on(events.NewMessage(pattern='/showstickers'))
-async def show_stickers_handler(event):
-    parts = event.message.text.split(' ')
-    if len(parts) < 2:
-        await event.reply("Usage: /showstickers <sticker_set_short_name>")
-        return
-    sticker_set_name = parts[1]
-    try:
-        sticker_set = await client(GetStickerSetRequest(
-            stickerset=InputStickerSetShortName(sticker_set_name)
-        ))
-        stickers = sticker_set.documents
-        message = "**Sticker IDs:**\n"
-        for sticker in stickers:
-            message += f"{sticker.id}\n"
-        await event.reply(message)
-    except Exception as e:
-        await event.reply(f"Error fetching stickers: {e}")
-
 @client.on(events.NewMessage(pattern='/menu'))
 async def menu_handler(event):
     await event.reply(menu)
